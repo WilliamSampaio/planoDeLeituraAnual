@@ -1,0 +1,22 @@
+[tool.poetry]
+authors = ["William Sampaio <56176702+WilliamSampaio@users.noreply.github.com>"]
+description = ""
+name = "planodeleituraanual"
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+numpy = "^1.26.4"
+odfpy = "^1.4.1"
+pandas = "^2.2.2"
+plotly = "^5.22.0"
+python = "^3.12"
+streamlit = "^1.35.0"
+
+[tool.poetry.group.dev.dependencies]
+blue = "^0.9.1"
+isort = "^5.13.2"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
