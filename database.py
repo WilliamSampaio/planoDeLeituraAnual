@@ -1,3 +1,5 @@
+import datetime as dt
+
 from tinydb import TinyDB
 
 
@@ -30,5 +32,16 @@ def get_usuario():
     return get_usuario_tbl().get(doc_id=1)
 
 
-def get_bread_daily(id) -> dict:
-    return get_plano_tbl().get(doc_id=id)
+def get_plano_id(date: dt.date):
+    cronograma = get_usuario()['cronograma']
+    for item in cronograma:
+        if item[1] == date.strftime('%Y-%m-%d'):
+            return item[0]
+    return None
+
+
+def get_bread_daily(id):
+    bread = get_plano_tbl().get(doc_id=1000)
+    if bread is not None:
+        return bread
+    return None

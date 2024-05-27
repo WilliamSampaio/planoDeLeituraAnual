@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
         data = row[0].date_input('Data Específica:')
 
-        leituras = db.get_bread_daily(data)['leituras']
+        leituras = db.get_bread_daily(db.get_plano_id(data))
 
         st.write(leituras)
 
