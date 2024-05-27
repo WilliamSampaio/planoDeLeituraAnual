@@ -6,6 +6,8 @@ readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
+beautifulsoup4 = "^4.12.3"
+lxml = "^5.2.2"
 numpy = "^1.26.4"
 odfpy = "^1.4.1"
 pandas = "^2.2.2"
