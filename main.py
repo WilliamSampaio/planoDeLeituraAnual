@@ -1,92 +1,116 @@
-import json
-
 import numpy as np
 import pandas as pd
-import plotly.express as px
 import streamlit as st
+from dotenv import dotenv_values
+
+import database as db
+from create_plan import create_plan
+
 
 if __name__ == '__main__':
 
-    st.set_page_config('Plano de Leitura Anual', ':book:', 'wide')
+    if db.get_usuario() is None:
+        create_plan()
+    else:
 
-    st.write('# Plano de Leitura Anual')
-    st.divider()
+        config = dotenv_values('.env')
 
-    df = pd.read_excel('biblia.ods', engine='odf')
-    df = df.drop(['pagina_inicial', 'quantidade_paginas'], axis=1)
-    df['status'] = np.where(
-        df['capitulos'] == df['capitulos_lidos'], 'Lidos', 'Não Lidos'
-    )
+        st.set_page_config(config['APP_NAME'], ':book:', 'wide')
 
-    df['contador'] = 0
+        st.write('# {}'.format(config['APP_NAME']))
+        st.divider()
 
-    f = open('plano.json')
-    plano = json.load(f)
+        container = st.container()
 
-    for dia in plano:
-        for leitura in plano[dia]:
-            livro_cap = str(leitura).split('_')
-            for i in range(0, len(df['livro'])):
-                if df['livro'][i] == livro_cap[0]:
-                    df['contador'][i] = df['contador'][i] + 1
+        row = container.columns(2)
 
-    df['ok'] = np.where(df['capitulos'] == df['contador'], 'OK', '---')
+        row[0].write('## Leitura')
 
-    df = st.data_editor(df, width=2000)
+        data = row[0].date_input('Data Específica:')
 
-    row = st.columns(2)
+        leituras = db.get_bread_daily(data)['leituras']
 
-    options = ['Por livro', 'Por capítulo']
+        st.write(leituras)
 
-    selected = row[1].selectbox('Progresso', options)
-
-    if selected == options[0]:
-        livro = df.groupby('status')['livro'].count().reset_index()
-        fig = px.pie(
-            livro,
-            values='livro',
-            names='status',
-            title='Percentual lido por livros',
+        df = pd.read_excel('biblia.ods', engine='odf')
+        df = df.drop(['pagina_inicial', 'quantidade_paginas'], axis=1)
+        df['status'] = np.where(
+            df['capitulos'] == df['capitulos_lidos'], 'Lidos', 'Não Lidos'
         )
-        row[1].plotly_chart(fig, True)
 
-    if selected == options[1]:
-        capitulos = df.sum()
-        fig = px.pie(
-            capitulos,
-            values=[capitulos['capitulos'], capitulos['capitulos_lidos']],
-            names=['Não Lidos', 'Lidos'],
-            title='Percentual lido por capítulos',
-        )
-        row[1].plotly_chart(fig, True)
+        # st.write(tbl.get(doc_id=99))
 
-    # st.latex('TESTE')
-    # st.divider()
+        # df['contador'] = 0
 
-    # st.toast('teste')
+        # f = open('plano.json')
+        # plano = json.load(f)
 
-    # tab = st.tabs(['# teste', '# teste'])
+        # for dia in plano:
+        #     for leitura in plano[dia]:
+        #         livro_cap = str(leitura).split('_')
+        #         for i in range(0, len(df['livro'])):
+        #             if df['livro'][i] == livro_cap[0]:
+        #                 df['contador'][i] = df['contador'][i] + 1
 
-    # # st.snow()
+        # df['ok'] = np.where(df['capitulos'] == df['contador'], 'OK', '---')
 
-    # st.header('teste')
-    # st.subheader('teste')
+        # df = st.data_editor(df, width=2000)
+        ##################################################################
+        # row = st.columns(2)
 
-    # # st.switch_page()
+        # options = ['Por livro', 'Por capítulo']
 
-    # tab[0].error('teste 1')
-    # tab[1].error('teste 2')
+        # selected = row[1].selectbox('Progresso', options)
 
-    # qtd_paginas = df.groupby('lido')['quantidade_paginas'].sum().reset_index()
-    # qtd_paginas['lido'] = np.where(qtd_paginas['lido'], 'Lido', 'Não lido')
+        # if selected == options[0]:
+        #     livro = df.groupby('status')['livro'].count().reset_index()
+        #     fig = px.pie(
+        #         livro,
+        #         values='livro',
+        #         names='status',
+        #         title='Percentual lido por livros',
+        #     )
+        #     row[1].plotly_chart(fig, True)
 
-    # fig = px.pie(
-    #     qtd_paginas,
-    #     values='quantidade_paginas',
-    #     names='lido',
-    #     title='Percentual lido por páginas',
-    # )
+        # if selected == options[1]:
+        #     capitulos = df.sum()
+        #     fig = px.pie(
+        #         capitulos,
+        #         values=[capitulos['capitulos'], capitulos['capitulos_lidos']],
+        #         names=['Não Lidos', 'Lidos'],
+        #         title='Percentual lido por capítulos',
+        #     )
+        #     row[1].plotly_chart(fig, True)
 
-    # row[1].plotly_chart(fig, True)
+        #################################################################
 
-    # st.dataframe(capitulos)
+        # st.latex('TESTE')
+        # st.divider()
+
+        # st.toast('teste')
+
+        # tab = st.tabs(['# teste', '# teste'])
+
+        # # st.snow()
+
+        # st.header('teste')
+        # st.subheader('teste')
+
+        # # st.switch_page()
+
+        # tab[0].error('teste 1')
+        # tab[1].error('teste 2')
+
+        # qtd_paginas = df.groupby('lido')['quantidade_paginas'].sum().reset_index()
+        # qtd_paginas['lido'] = np.where(qtd_paginas['lido'], 'Lido', 'Não lido')
+
+        # fig = px.pie(
+        #     qtd_paginas,
+        #     values='quantidade_paginas',
+        #     names='lido',
+        #     title='Percentual lido por páginas',
+        # )
+
+        # row[1].plotly_chart(fig, True)
+
+        # st.dataframe(capitulos)
