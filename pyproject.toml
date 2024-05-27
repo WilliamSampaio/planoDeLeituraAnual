@@ -18,6 +18,16 @@ streamlit = "^1.35.0"
 [tool.poetry.group.dev.dependencies]
 blue = "^0.9.1"
 isort = "^5.13.2"
+taskipy = "^1.12.2"
+
+[tool.isort]
+line_length = 79
+profile = "black"
+
+[tool.taskipy.tasks]
+freeze = "poetry export --output=requirements.txt"
+lint = "blue . && isort ."
+run = "task lint && streamlit run main.py"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
