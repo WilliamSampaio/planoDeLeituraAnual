@@ -16,6 +16,8 @@ if __name__ == '__main__':
 
         st.set_page_config(config['APP_NAME'], ':book:', 'wide')
 
+        usuario = db.get_usuario()
+
         st.write('# {}'.format(config['APP_NAME']))
         st.divider()
 

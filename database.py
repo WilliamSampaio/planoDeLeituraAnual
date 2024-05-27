@@ -1,6 +1,4 @@
-import datetime as dt
-
-from tinydb import Query, TinyDB
+from tinydb import TinyDB
 
 
 def get_db(path) -> TinyDB:
@@ -32,9 +30,5 @@ def get_usuario():
     return get_usuario_tbl().get(doc_id=1)
 
 
-def get_bread_daily(date: dt.date = dt.date.today()) -> dict:
-    mesdia = date.strftime('%m-%d')
-    if mesdia == '02-29':
-        return None
-    query = Query()
-    return get_plano_tbl().search(query.mesdia == mesdia)[0]
+def get_bread_daily(id) -> dict:
+    return get_plano_tbl().get(doc_id=id)
