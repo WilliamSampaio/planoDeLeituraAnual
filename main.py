@@ -6,7 +6,6 @@ from dotenv import dotenv_values
 import database as db
 from create_plan import create_plan
 
-
 if __name__ == '__main__':
 
     if db.get_usuario() is None:

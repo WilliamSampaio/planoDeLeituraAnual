@@ -1,6 +1,6 @@
-from database import get_plano_tbl
 from tinydb.operations import delete
 
+from database import get_plano_tbl
 
 if __name__ == '__main__':
 

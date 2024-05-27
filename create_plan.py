@@ -1,3 +1,5 @@
+import datetime as dt
+
 import streamlit as st
 from dotenv import dotenv_values
 
@@ -14,7 +16,7 @@ def create_plan():
         st.header('Criar Novo Plano')
         st.subheader('Inicie um novo plano de leitura :book:')
 
-        nome = st.text_input('Seu nome:',max_chars=100)
+        nome = st.text_input('Seu nome:', max_chars=100)
 
         data_inicio = st.date_input('Data inicio')
 
@@ -23,6 +25,15 @@ def create_plan():
         if submit:
 
             if len(nome) == 0:
-                st.error("Seu nome precisa ser informado!")
+                st.error('Seu nome precisa ser informado!')
+                st.stop()
+
+            plano_len = len(db.get_plano_tbl().all())
+
+            date_list = [
+                data_inicio + dt.timedelta(days=x) for x in range(plano_len)
+            ]
+
+            st.write(date_list)
 
             st.balloons()
