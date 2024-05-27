@@ -1,3 +1,5 @@
+import json
+
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -16,11 +18,21 @@ if __name__ == '__main__':
         df['capitulos'] == df['capitulos_lidos'], 'Lidos', 'Não Lidos'
     )
 
+    df['contador'] = 0
+
+    f = open('plano.json')
+    plano = json.load(f)
+
+    for dia in plano:
+        for leitura in plano[dia]:
+            livro_cap = str(leitura).split('_')
+            for i in range(0, len(df['livro'])):
+                if df['livro'][i] == livro_cap[0]:
+                    df['contador'][i] = df['contador'][i] + 1
+
+    df['ok'] = np.where(df['capitulos'] == df['contador'], 'OK', '---')
+
     df = st.data_editor(df, width=2000)
-
-    df2 = pd.read_json('plano.json', convert_axes=False)
-
-    st.dataframe(df2)
 
     row = st.columns(2)
 
