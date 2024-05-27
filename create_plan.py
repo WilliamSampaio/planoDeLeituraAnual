@@ -34,6 +34,19 @@ def create_plan():
                 data_inicio + dt.timedelta(days=x) for x in range(plano_len)
             ]
 
-            st.write(date_list)
+            cronograma = []
+            for index in range(len(date_list)):
+                cronograma.append(
+                    [str(index + 1), date_list[index].strftime('%Y-%m-%d')]
+                )
+
+            db.get_usuario_tbl().insert(
+                {
+                    'nome': nome,
+                    'inicio': data_inicio.strftime('%Y-%m-%d'),
+                    'cronograma': cronograma,
+                    'lidos': [],
+                }
+            )
 
             st.balloons()
