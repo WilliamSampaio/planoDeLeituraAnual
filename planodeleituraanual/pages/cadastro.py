@@ -37,7 +37,8 @@ def index():
             plano_len = len(db.get_plano_tbl().all())
 
             date_list = [
-                dt.date(2023, 1, 1) + dt.timedelta(days=x)
+                dt.date(2022, data_inicio.month, data_inicio.day)
+                + dt.timedelta(days=x)
                 for x in range(plano_len)
             ]
 
