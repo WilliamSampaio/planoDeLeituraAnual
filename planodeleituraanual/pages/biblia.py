@@ -2,11 +2,12 @@ import streamlit as st
 from streamlit.delta_generator import DeltaGenerator
 
 from planodeleituraanual import acf
+from planodeleituraanual.database import is_chapter_read
 
 
 def chunks(lst, n):
     for i in range(0, len(lst), n):
-        yield lst[i:i + n]
+        yield lst[i : i + n]
 
 
 def index(tab: DeltaGenerator):
@@ -27,7 +28,12 @@ def index(tab: DeltaGenerator):
         btn_chapters = tab.columns(10)
         for i in range(len(sub_list)):
             btn_chapters[i].button(
-                '**{}**'.format(str(sub_list[i])),
+                '**{}{}**'.format(
+                    str(sub_list[i]),
+                    ' :white_check_mark:'
+                    if is_chapter_read(f'{livro}_{str(sub_list[i])}')
+                    else '',
+                ),
                 '{}_{}'.format(livro, sub_list[i]),
                 on_click=set_capitulo,
                 args=[sub_list[i]],
@@ -37,14 +43,19 @@ def index(tab: DeltaGenerator):
         acf.get_book_id(livro), st.session_state.capitulo
     )
     if conteudo is not None:
-        for verse in conteudo['verses']:
+        cols = tab.columns(2)
+        verses_col = chunks(
+            conteudo['verses'], int(len(conteudo['verses']) / 1.7)
+        )
+
+        for verse in next(verses_col):
             for key, value in verse.items():
-                tab.markdown(
+                cols[0].markdown(
                     '{}. {}'.format(key, value), unsafe_allow_html=True
                 )
 
-    # print(chunks(chapter_list, 10))
-
-    # tab.write(chunks(chapter_list, 10))
-
-    # capitulo = row_selects[1].selectbox('Capítulo:',['a','b'])
+        for verse in next(verses_col):
+            for key, value in verse.items():
+                cols[1].markdown(
+                    '{}. {}'.format(key, value), unsafe_allow_html=True
+                )

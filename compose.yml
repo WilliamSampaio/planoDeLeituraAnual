@@ -1,0 +1,9 @@
+services:
+  application:
+    container_name: 'planodeleituraanual'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - 8501:8501
