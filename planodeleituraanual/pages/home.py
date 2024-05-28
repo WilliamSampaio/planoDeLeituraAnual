@@ -58,10 +58,11 @@ def index(tab: DeltaGenerator):
         row[1].plotly_chart(fig, True)
 
     if selected == options[1]:
-        capitulos = st.session_state.biblia_df.sum()
         fig = px.pie(
-            capitulos,
-            values=[capitulos['capitulos'], capitulos['capitulos_lidos']],
+            values=[
+                st.session_state.biblia_df['capitulos'].sum(),
+                st.session_state.biblia_df['capitulos_lidos'].sum(),
+            ],
             names=['Não Lido', 'Lido'],
             title='Total de Capítulos Lidos',
         )
