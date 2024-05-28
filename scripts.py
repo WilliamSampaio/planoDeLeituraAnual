@@ -73,17 +73,25 @@ if __name__ == '__main__':
 
     # remove book key dos jsons
 
-    import json
-    import os
+    # import json
+    # import os
 
-    for filename in os.listdir('acf-json'):
-        print(filename)
+    # for filename in os.listdir('acf-json'):
+    #     print(filename)
 
-        f = open(os.path.join(os.getcwd(), 'acf-json', filename))
+    #     f = open(os.path.join(os.getcwd(), 'acf-json', filename))
 
-        data = json.load(f)
-        del data['book']
+    #     data = json.load(f)
+    #     del data['book']
 
-        f = open(os.path.join(os.getcwd(), 'acf-json', filename), 'w')
-        f.write(json.dumps(data))
-        f.close()
+    #     f = open(os.path.join(os.getcwd(), 'acf-json', filename), 'w')
+    #     f.write(json.dumps(data))
+    #     f.close()
+
+    # acf
+
+    # import planodeleituraanual.acf as acf
+
+    # print(acf.get_book_id('Gênesis'))
+    # print(acf.get_chapter(acf.get_book_id('Gênesis'), 50))
+    ...

@@ -3,7 +3,7 @@ import streamlit as st
 from dotenv import dotenv_values
 
 import planodeleituraanual.database as db
-from planodeleituraanual.functions import load_biblia_df
+from planodeleituraanual.acf import load_biblia_df
 from planodeleituraanual.pages import cadastro, home, progresso
 from planodeleituraanual.shutdown import btn_shutdown, shutdown
 
