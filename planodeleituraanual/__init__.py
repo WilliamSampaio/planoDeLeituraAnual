@@ -24,7 +24,7 @@ def create_app():
 
         container = st.container()
 
-        row = container.columns(2)
+        row = container.columns([1.2, 0.8])
 
         row[0].write('## Leitura')
 
@@ -34,9 +34,9 @@ def create_app():
 
         row[0].divider()
 
-        row_leituras = row[0].columns([1.5, 0.5])
         for item in leituras:
-            row_leituras[0].write(item.replace('_', ' '))
+            row_leituras = row[0].columns([1.5, 0.5])
+            row_leituras[0].write('##### {}'.format(item.replace('_', ' ')))
             row_leituras[1].toggle(
                 'Marque como Lido',
                 value=db.is_chapter_read(item),
