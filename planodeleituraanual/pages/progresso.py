@@ -9,8 +9,6 @@ def index(tab: DeltaGenerator):
 
     prog_df = st.session_state.biblia_df
 
-    prog_df = prog_df.drop(['livro'], axis=1)
-
     prog_df['percentual'] = [
         prog_df['capitulos_lidos'][i] / prog_df['capitulos'][i]
         for i in range(len(prog_df))
@@ -36,7 +34,7 @@ def index(tab: DeltaGenerator):
     for i in range(len(prog_df)):
 
         linha = tab.columns(columns_size)
-        linha[0].markdown('##### Linha {}'.format(prog_df['id'][i]))
+        linha[0].markdown('##### {}'.format(prog_df['livro'][i]))
         linha[1].markdown('##### {}'.format(prog_df['capitulos'][i]))
         linha[2].markdown('##### {}'.format(prog_df['capitulos_lidos'][i]))
 
