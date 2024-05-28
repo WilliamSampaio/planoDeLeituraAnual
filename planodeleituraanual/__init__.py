@@ -3,10 +3,8 @@ import streamlit as st
 from dotenv import dotenv_values
 
 import planodeleituraanual.database as db
-import planodeleituraanual.home_page as home
-import planodeleituraanual.progresso_page as progresso
-from planodeleituraanual.create_plan import create_plan
 from planodeleituraanual.functions import load_biblia_df
+from planodeleituraanual.pages import cadastro, home, progresso
 from planodeleituraanual.shutdown import btn_shutdown, shutdown
 
 
@@ -15,7 +13,7 @@ def create_app():
     config = dotenv_values('.env')
 
     if db.get_usuario() is None:
-        create_plan()
+        cadastro.index()
     else:
         st.set_page_config(config['APP_NAME'], ':book:', 'wide')
 

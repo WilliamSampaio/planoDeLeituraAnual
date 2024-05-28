@@ -6,12 +6,12 @@ from dotenv import dotenv_values
 
 import planodeleituraanual.database as db
 
-from .shutdown import shutdown
+from ..shutdown import shutdown
 
 config = dotenv_values('.env')
 
 
-def create_plan():
+def index():
 
     st.set_page_config(config['APP_NAME'], ':book:')
 
