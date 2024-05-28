@@ -64,7 +64,7 @@ def create_app():
         if selected == options[0]:
             livro = df.groupby('status')['capitulos'].count().reset_index()
             livro['status'] = np.where(
-                livro['status'] is False, 'Não concluído', 'Concluído'
+                livro['status'] == False, 'Não concluído', 'Concluído'
             )
             fig = px.pie(
                 livro,

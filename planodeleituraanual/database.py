@@ -27,6 +27,8 @@ def get_db_plano():
 
 
 def get_db_usuario():
+    if not os.path.exists(dir):
+        os.makedirs(dir)
     return get_db(os.path.join(dir, 'usuario.db.json'))
 
 
