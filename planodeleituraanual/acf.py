@@ -8,9 +8,23 @@ def load_biblia_df():
     return pd.read_json(os.path.join(os.getcwd(), 'biblia.df.json'))
 
 
+def get_books():
+    return load_biblia_df()['livro']
+
+
 def get_book_id(book: str):
     df = load_biblia_df()
     result = [df['id'][i] for i in range(len(df)) if df['livro'][i] == book]
+    if len(result) > 0:
+        return result[0]
+    return None
+
+
+def get_chapter_count(book: str):
+    df = load_biblia_df()
+    result = [
+        df['capitulos'][i] for i in range(len(df)) if df['livro'][i] == book
+    ]
     if len(result) > 0:
         return result[0]
     return None
