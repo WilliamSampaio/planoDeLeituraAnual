@@ -4,13 +4,18 @@ import time
 import streamlit as st
 from dotenv import dotenv_values
 
-import database as db
+import planodeleituraanual.database as db
+
+from .shutdown import shutdown
 
 config = dotenv_values('.env')
 
 
 def create_plan():
+
     st.set_page_config(config['APP_NAME'], ':book:')
+
+    shutdown()
 
     with st.form('create_plan_form'):
 

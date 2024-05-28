@@ -1,6 +1,16 @@
 import datetime as dt
+import os
 
+from dotenv import dotenv_values
 from tinydb import TinyDB
+
+config = dotenv_values(os.path.join(os.getcwd(), '.env'))
+
+
+if config['APP_ENV'] == 'dev':
+    dir = os.getcwd()
+elif config['APP_ENV'] == 'prod':
+    dir = os.path.join(os.environ.get('HOME'), '.planodeleituraanual')
 
 
 def get_db(path) -> TinyDB:
@@ -13,11 +23,11 @@ def get_table(table_name: str, db_instance: TinyDB) -> TinyDB:
 
 
 def get_db_plano():
-    return get_db('plano.json')
+    return get_db(os.path.join(os.getcwd(), 'plano.json'))
 
 
 def get_db_usuario():
-    return get_db('usuario.db.json')
+    return get_db(os.path.join(dir, 'usuario.db.json'))
 
 
 def get_plano_tbl():
