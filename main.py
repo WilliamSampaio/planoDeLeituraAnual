@@ -1,4 +1,6 @@
+import numpy as np
 import pandas as pd
+import plotly.express as px
 import streamlit as st
 from dotenv import dotenv_values
 
@@ -50,32 +52,45 @@ if __name__ == '__main__':
 
         row[1].write('## Progresso')
 
-        options = ['Por livro', 'Por capítulo']
+        df = load_biblia_df()
+
+        df['capitulos_lidos'] = [
+            db.count_chapters_read(x) for x in df['livro']
+        ]
+
+        df['status'] = np.where(
+            df['capitulos'] == df['capitulos_lidos'], True, False
+        )
+
+        options = ['Por Livro', 'Por Capítulo']
 
         selected = row[1].selectbox('Acompanhar Por:', options)
 
-        # if selected == options[0]:
-        #     livro = df.groupby('status')['livro'].count().reset_index()
-        #     fig = px.pie(
-        #         livro,
-        #         values='livro',
-        #         names='status',
-        #         title='Percentual lido por livros',
-        #     )
-        #     row[1].plotly_chart(fig, True)
+        if selected == options[0]:
+            livro = df.groupby('status')['capitulos'].count().reset_index()
+            livro['status'] = np.where(
+                livro['status'] is False, 'Não concluído', 'Concluído'
+            )
+            fig = px.pie(
+                livro,
+                values='capitulos',
+                names='status',
+                title='Total de Livros Lidos',
+            )
+            row[1].plotly_chart(fig, True)
 
-        # if selected == options[1]:
-        #     capitulos = df.sum()
-        #     fig = px.pie(
-        #         capitulos,
-        #         values=[capitulos['capitulos'], capitulos['capitulos_lidos']],
-        #         names=['Não Lidos', 'Lidos'],
-        #         title='Percentual lido por capítulos',
-        #     )
-        #     row[1].plotly_chart(fig, True)
+        if selected == options[1]:
+            capitulos = df.sum()
+            fig = px.pie(
+                capitulos,
+                values=[capitulos['capitulos'], capitulos['capitulos_lidos']],
+                names=['Não Lido', 'Lido'],
+                title='Total de Capítulos Lidos',
+            )
+            row[1].plotly_chart(fig, True)
 
-        # df = pd.read_excel('biblia.ods', engine='odf')
-        # df = df.drop(['pagina_inicial', 'quantidade_paginas'], axis=1)
+        # st.data_editor(df)
+
         # df['status'] = np.where(
         #     df['capitulos'] == df['capitulos_lidos'], 'Lidos', 'Não Lidos'
         # )
