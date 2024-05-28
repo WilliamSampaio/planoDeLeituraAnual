@@ -27,11 +27,16 @@ if __name__ == '__main__':
 
         row[0].write('## Leitura')
 
-        data = row[0].date_input('Data Específica:')
+        data = row[0].date_input('Data Específica:', format='DD/MM/YYYY')
 
-        leituras = db.get_bread_daily(db.get_plano_id(data))
+        leituras = db.get_bread_daily(data)
 
-        st.write(leituras)
+        row[0].divider()
+
+        row_leituras = row[0].columns([1.5, 0.5])
+        for item in leituras:
+            row_leituras[0].write(item.replace('_', ' '))
+            row_leituras[1].toggle('Marque como Lido', value=False, key=item)
 
         df = pd.read_excel('biblia.ods', engine='odf')
         df = df.drop(['pagina_inicial', 'quantidade_paginas'], axis=1)
