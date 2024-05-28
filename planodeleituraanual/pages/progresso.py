@@ -19,21 +19,21 @@ def index(tab: DeltaGenerator):
         'Progresso geral',
     )
 
-    tab.divider()
+    sec1 = tab.expander('Progresso por Livro', True)
 
     columns_size = [1, 0.3, 0.4, 0.3, 0.7, 0.1]
 
-    header = tab.columns(columns_size)
+    header = sec1.columns(columns_size)
 
-    header[0].markdown('#### Livro<br>', unsafe_allow_html=True)
-    header[1].markdown('#### Capítulos<br>', unsafe_allow_html=True)
-    header[2].markdown('#### Capítulos Lidos<br>', unsafe_allow_html=True)
-    header[3].markdown('#### Percentual<br>', unsafe_allow_html=True)
-    header[4].markdown('#### Progresso<br>', unsafe_allow_html=True)
+    header[0].write('#### Livro')
+    header[1].write('#### Capítulos')
+    header[2].write('#### Capítulos Lidos')
+    header[3].write('#### Percentual')
+    header[4].write('#### Progresso')
 
     for i in range(len(prog_df)):
 
-        linha = tab.columns(columns_size)
+        linha = sec1.columns(columns_size)
         linha[0].markdown('##### {}'.format(prog_df['livro'][i]))
         linha[1].markdown('##### {}'.format(prog_df['capitulos'][i]))
         linha[2].markdown('##### {}'.format(prog_df['capitulos_lidos'][i]))
@@ -51,5 +51,3 @@ def index(tab: DeltaGenerator):
         linha[3].write(labels[0])
         linha[4].progress(prog_df['percentual'][i])
         linha[5].write(labels[1])
-
-    tab.dataframe(prog_df)
