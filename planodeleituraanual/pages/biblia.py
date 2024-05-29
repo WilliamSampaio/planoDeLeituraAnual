@@ -31,7 +31,9 @@ def index(tab: DeltaGenerator):
     def avancar_capitulo():
         st.session_state.capitulo += 1
 
-    livro = tab.selectbox('Livro:', acf.get_books(), on_change=toogle_expanded)
+    livro = tab.selectbox(
+        '**Livro**', acf.get_books(), on_change=toogle_expanded
+    )
 
     chapter_expander = tab.expander('**Capítulos**', st.session_state.expanded)
     chapter_expander.divider()

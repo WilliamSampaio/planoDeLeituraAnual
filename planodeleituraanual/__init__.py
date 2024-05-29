@@ -4,7 +4,7 @@ from dotenv import dotenv_values
 
 import planodeleituraanual.database as db
 from planodeleituraanual.acf import load_biblia_df
-from planodeleituraanual.pages import biblia, cadastro, home, progresso
+from planodeleituraanual.pages import biblia, cadastro, plano, progresso
 from planodeleituraanual.shutdown import btn_shutdown, shutdown
 
 
@@ -44,10 +44,10 @@ def create_app():
             )
         )
 
-        tabs = st.tabs(['Home', 'Progresso', 'Bíblia'])
+        tabs = st.tabs(['Bíblia', 'Plano', 'Progresso'])
 
-        home.index(tabs[0])
-        progresso.index(tabs[1])
-        biblia.index(tabs[2])
+        biblia.index(tabs[0])
+        plano.index(tabs[1])
+        progresso.index(tabs[2])
 
     btn_shutdown()
