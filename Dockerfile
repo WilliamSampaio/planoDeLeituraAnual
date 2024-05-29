@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y \
 COPY . .
 
 RUN pip install --upgrade pip
-RUN python -m pip install psutil
 RUN pip install -r requirements.txt
 
 EXPOSE 8501

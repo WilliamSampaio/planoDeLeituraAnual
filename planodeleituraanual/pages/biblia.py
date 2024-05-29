@@ -22,8 +22,8 @@ def index(tab: DeltaGenerator):
         st.session_state.capitulo = capitulo
         st.session_state.expanded = False
 
-    def toogle_expanded():
-        st.session_state.expanded = not st.session_state.expanded
+    def set_expanded(expanded: bool):
+        st.session_state.expanded = expanded
 
     def voltar_capitulo():
         st.session_state.capitulo -= 1
@@ -32,7 +32,7 @@ def index(tab: DeltaGenerator):
         st.session_state.capitulo += 1
 
     livro = tab.selectbox(
-        '**Livro**', acf.get_books(), on_change=toogle_expanded
+        '**Livro**', acf.get_books(), on_change=set_expanded, args=[True]
     )
 
     chapter_expander = tab.expander('**Capítulos**', st.session_state.expanded)
