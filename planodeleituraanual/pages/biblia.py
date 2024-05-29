@@ -95,12 +95,8 @@ def index(tab: DeltaGenerator):
 
         for verse in next(verses_col):
             for key, value in verse.items():
-                cols[0].markdown(
-                    '{}. {}'.format(key, value), unsafe_allow_html=True
-                )
+                cols[0].html('{}. {}'.format(key, value))
 
         for verse in next(verses_col):
             for key, value in verse.items():
-                cols[1].markdown(
-                    '{}. {}'.format(key, value), unsafe_allow_html=True
-                )
+                cols[1].html('{}. {}'.format(key, value))
